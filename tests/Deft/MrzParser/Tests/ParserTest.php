@@ -63,6 +63,30 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertValidDocument($document, $fields);
     }
 
+
+    public function testParse_idcard2Array()
+    {
+        $mrzString = [
+            "I<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<",
+            "D231458907UTO7408122F1204159<<<<<<<6",
+        ];
+
+        $document = $this->parser->parseLines($mrzString);
+        $fields = [
+            'type' => TravelDocumentType::ID_CARD,
+            'number' => 'D23145890',
+            'issuingCountry' => 'UTO',
+            'dateOfExpiry' => '15-04-2012',
+            'primaryIdentifier' => 'ERIKSSON',
+            'secondaryIdentifier' => 'ANNA MARIA',
+            'sex' => Sex::FEMALE,
+            'dateOfBirth' => '12-08-1974',
+            'nationality' => 'UTO',
+            'personalNumber' => ''
+        ];
+        $this->assertValidDocument($document, $fields);
+    }
+
     protected function assertValidDocument($document, $fields)
     {
         $this->assertEquals($fields['type'], $document->getType(), "Incorrect document type");

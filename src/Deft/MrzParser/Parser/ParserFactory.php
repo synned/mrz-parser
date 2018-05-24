@@ -16,6 +16,7 @@ class ParserFactory
         switch (strlen($mrzString)) {
             case 88: return new PassportParser();
             case 90: return new TravelDocumentType1Parser();
+            case 72: return new TravelDocumentType2Parser();
             default: throw new UnsupportedDocumentException("String length didn't match that of known document types");
         }
     }
